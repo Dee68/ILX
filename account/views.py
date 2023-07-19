@@ -1,4 +1,4 @@
-from .serializers import RegisterSerializer, EmailvericationSerializer
+from .serializers import RegisterSerializer, EmailVericationSerializer
 from django.urls import reverse
 from django.conf import settings
 from account.models import User, Profile
@@ -48,7 +48,7 @@ class RegisterApiView(generics.CreateAPIView):
 
 
 class VerifyEmail(generics.GenericAPIView):
-    serializer_class = EmailvericationSerializer
+    serializer_class = EmailVericationSerializer
     token_param_config = openapi.Parameter('token',
                                            in_=openapi.IN_QUERY,
                                            description='Description',

@@ -51,7 +51,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
 
-class EmailvericationSerializer(serializers.ModelSerializer):
+class EmailVericationSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=255)
 
     class Meta:
