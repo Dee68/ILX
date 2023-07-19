@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-# from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken
 import datetime
 
 
@@ -55,13 +55,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def tokens(self):
-        # refresh = RefreshToken.for_user(self)
-        return ''
-        # return {
-        #     'refresh': str(refresh),
-        #     'access': str(refresh.access_token)
-        # }
- 
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token)
+        }
+
     def __str__(self):
         return self.username
 

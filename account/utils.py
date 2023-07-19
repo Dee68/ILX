@@ -6,7 +6,7 @@ class Util:
     @staticmethod
     def send_mail(data):
         email = EmailMessage(
-            subject=data['subject'],
+            subject=data['email_subject'],
             body=data['email_body'],
             from_email=settings.EMAIL_HOST_USER, to=[data['user']])
-        email.send()
+        email.send(fail_silently=False)

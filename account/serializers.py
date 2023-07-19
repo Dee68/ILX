@@ -49,3 +49,11 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             password=validated_data['password']
         )
+
+
+class EmailvericationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = User
+        fields = ['token']
