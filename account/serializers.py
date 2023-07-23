@@ -2,20 +2,13 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
 from account.models import Profile
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
 User = get_user_model()
-
-
-class UserSerializer(serializers.ModelSerializer):
- 
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email']
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -71,12 +64,6 @@ class LoginSerializer(serializers.ModelSerializer):
         min_length=6,
         write_only=True
         )
-    username = serializers.CharField(
-        max_length=20,
-        min_length=2,
-        read_only=True
-        )
-    # tokens = serializers.CharField(max_length=70, read_only=True)
     tokens = serializers.SerializerMethodField()
 
     def get_tokens(self, obj):
@@ -88,17 +75,14 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'username', 'tokens']
+        fields = ['email', 'password', 'tokens']
 
     def validate(self, attrs):
         email = attrs.get('email', '')
         password = attrs.get('password', '')
         user = authenticate(email=email, password=password)
-        # user = User.objects.filter(email=email).first()
         if user is None:
             raise AuthenticationFailed('User not found.')
-        # if not user.check_password(password):
-        #     raise AuthenticationFailed('Incorrect credentials, try again')
         if not user.is_active:
             raise AuthenticationFailed('Account disabled, contact admin')
         if not user.is_verified:
@@ -109,4 +93,43 @@ class LoginSerializer(serializers.ModelSerializer):
             'email': user.email,
             'username': user.username,
             'tokens': user.tokens
-        }
+            }
+
+
+class LogoutSerializer(serializers.ModelSerializer):
+    refresh = serializers.CharField()
+
+    class Meta:
+        model = User
+        fields = ['refresh']
+
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            RefreshToken(self.token).blacklist()
+        except TokenError:
+            self.fail({'error': 'bad token'})
+
+
+class PasswordResetSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ['email']
+
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(write_only=True, required=True)
+    token = serializers.CharField(write_only=True, required=True)
+    uidb64 = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = ['password', 'token', 'uidb64']
+
+    def validate(self, attrs):
+        pass

@@ -1,15 +1,25 @@
 from .serializers import (
-    UserSerializer,
     RegisterSerializer,
     EmailVericationSerializer,
-    LoginSerializer
+    LoginSerializer,
+    LogoutSerializer,
+    PasswordResetSerializer,
+    SetNewPasswordSerializer
     )
 from django.urls import reverse
 from django.conf import settings
 from account.models import User, Profile
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import (
+    smart_bytes,
+    smart_str,
+    force_str,
+    DjangoUnicodeDecodeError
+    )
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics, status, views
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
@@ -28,7 +38,7 @@ class RegisterApiView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         user = User.objects.create_user(
-            username=request.data.get('username'),
+            username=serializer.data.get('username'),
             email=serializer.data.get('email')
             )
         user.set_password(request.data.get('password'))
@@ -105,21 +115,77 @@ class LoginApiView(generics.GenericAPIView):
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
-        # email = request.data['email']
-        # password = request.data['password']
-        # user = User.objects.filter(email=email).first()
-        # if user is None:
-        #     raise AuthenticationFailed('User not found.')
-        # if not user.check_password(password):
-        #     print(user.email)
-        #     raise AuthenticationFailed('Incorrect credentials, try again')
-        # if not user.is_active:
-        #     raise AuthenticationFailed('Account disabled, contact admin')
-        # if not user.is_verified:
-        #     raise AuthenticationFailed(
-        #         'Email not verified, verify email and try again.'
-        #         )
-        # return Response({'message': 'success'})
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class LogoutApiView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
+
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PasswordResetApiView(generics.GenericAPIView):
+    serializer_class = PasswordResetSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        email = request.data.get('email', '')
+
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email)
+            uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
+            token = PasswordResetTokenGenerator().make_token(user)
+            email_subject = 'Password Reset'
+            msg = 'please use the link below to reset your password'
+            current_site = get_current_site(request).domain
+            rel_link = reverse(
+                'password-reset-confirm',
+                kwargs={'uidb64': uidb64, 'token': token}
+                )
+            abs_link = 'http://'+current_site+rel_link
+            email_body = f'Hi {user.username}, {msg} {abs_link}'
+            data = {
+                'user': user.email,
+                'email_subject': email_subject,
+                'email_body': email_body
+                }
+            Util.send_mail(data)
+            return Response(
+                {'message': 'A link has been sent to your email'},
+                status=status.HTTP_200_OK
+                )
+        else:
+            return Response(
+                {'error': 'Email not in database'},
+                status=status.HTTP_400_BAD_REQUEST
+                )
+
+
+class PasswordTokenCheckApiView(generics.GenericAPIView):
+    def get(self, request, uidb64, token):
+        try:
+            id = smart_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=id)
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                return Response({'error': 'Token not valid'})
+        except DjangoUnicodeDecodeError:
+            if not PasswordResetTokenGenerator().check_token(user):
+                return Response({'error': 'Invalid token'})
+
+
+class SetNewPasswordApiView(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+
+    def patch(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response({'message': 'passwor reset success'}, status=status.HTTP_200_OK)
