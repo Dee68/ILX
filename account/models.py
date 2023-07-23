@@ -13,23 +13,32 @@ import datetime
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None):
+    use_in_migration = True
+
+    def create_user(self, username, email, password=None, **extra_fields):
         if username is None:
             raise TypeError('User should have a username!')
         if email is None:
             raise TypeError('User should have an Email')
-        user = self.model(username=username, email=self.normalize_email(email))
+        user = self.model(username=username, email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
-        user.save()
+        user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email, password):
+    def create_superuser(self, username, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff = True')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser = True')
         if password is None:
             raise TypeError('Superuser should have a password!')
-        user = self.create_user(username, email, password)
-        user.is_superuser = True
-        user.is_active = True
-        user.is_staff = True
+        # user.is_superuser = True
+        # user.is_active = True
+        # user.is_staff = True
+        user = self.create_user(username, email, password, **extra_fields)
         user.save()
         return user
 
@@ -45,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    # password1 = models.CharField(max_length=20)
+    password1 = models.CharField(max_length=20, default='password')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
