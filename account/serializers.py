@@ -4,6 +4,14 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import get_user_model
 from account.models import Profile
 from django.contrib.auth import authenticate
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import (
+    smart_bytes,
+    smart_str,
+    force_str,
+    DjangoUnicodeDecodeError
+    )
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -82,7 +90,7 @@ class LoginSerializer(serializers.ModelSerializer):
         password = attrs.get('password', '')
         user = authenticate(email=email, password=password)
         if user is None:
-            raise AuthenticationFailed('User not found.')
+            raise AuthenticationFailed('Invalid credentials.')
         if not user.is_active:
             raise AuthenticationFailed('Account disabled, contact admin')
         if not user.is_verified:
@@ -123,13 +131,27 @@ class PasswordResetSerializer(serializers.ModelSerializer):
 
 
 class SetNewPasswordSerializer(serializers.Serializer):
-    password = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(
+        write_only=True,
+        min_length=6,
+        required=True)
     token = serializers.CharField(write_only=True, required=True)
     uidb64 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
-        model = User
         fields = ['password', 'token', 'uidb64']
 
     def validate(self, attrs):
-        pass
+        try:
+            password = attrs.get('password')
+            token = attrs.get('token')
+            uidb64 = attrs.get('uidb64')
+            id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=id)
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                raise AuthenticationFailed('The reset link is invalid', 401)
+            user.set_password(password)
+            user.save()
+        except Exception as e:
+            raise AuthenticationFailed('The reset link is invalid', 401)
+        return super().validate(attrs)

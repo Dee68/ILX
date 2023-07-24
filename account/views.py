@@ -54,7 +54,8 @@ class RegisterApiView(generics.CreateAPIView):
         msg = 'please use the link below to verify your account'
         current_site = get_current_site(request).domain
         rel_link = reverse('verify-email')
-        abs_link = 'http://'+current_site+rel_link+'?token='+str(token.access_token)
+        abs_link = 'http://'+current_site+rel_link+'?token='\
+            + str(token.access_token)
         email_body = f'Hi {user.username}, {msg} {abs_link}'
         data = {
             'user': user.email,
@@ -111,7 +112,6 @@ class VerifyEmail(views.APIView):
 
 
 class LoginApiView(generics.GenericAPIView):
-    # permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
@@ -171,12 +171,22 @@ class PasswordResetApiView(generics.GenericAPIView):
 
 
 class PasswordTokenCheckApiView(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+
     def get(self, request, uidb64, token):
         try:
             id = smart_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(id=id)
             if not PasswordResetTokenGenerator().check_token(user, token):
                 return Response({'error': 'Token not valid'})
+            return Response(
+                {
+                    'success': True,
+                    'message': 'Credentials valid',
+                    'uidb64': uidb64,
+                    'token': token
+                },
+                status=status.HTTP_200_OK)
         except DjangoUnicodeDecodeError:
             if not PasswordResetTokenGenerator().check_token(user):
                 return Response({'error': 'Invalid token'})
@@ -188,4 +198,7 @@ class SetNewPasswordApiView(generics.GenericAPIView):
     def patch(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response({'message': 'passwor reset success'}, status=status.HTTP_200_OK)
+        return Response(
+            {'message': 'passwor reset success'},
+            status=status.HTTP_200_OK
+            )
