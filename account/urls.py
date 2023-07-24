@@ -5,7 +5,9 @@ from account.views import (
     LoginApiView,
     LogoutApiView,
     PasswordResetApiView,
-    PasswordTokenCheckApiView)
+    PasswordTokenCheckApiView,
+    SetNewPasswordApiView
+    )
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -23,5 +25,10 @@ urlpatterns = [
         'password-reset/<uidb64>/<token>/',
         PasswordTokenCheckApiView.as_view(),
         name='password-reset-confirm'
+        ),
+    path(
+        'password-reset-complete/',
+        SetNewPasswordApiView.as_view(),
+        name='password-reset-complete'
         )
 ]
