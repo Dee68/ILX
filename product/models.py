@@ -64,8 +64,8 @@ class Product(models.Model):
     location = models.CharField(max_length=100)
     status = models.CharField(max_length=5, choices=STATUS, default='FALSE')
     image_url = models.URLField(max_length=1024, null=True, blank=True)
-    # rating = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, default=0)
-    # num_reviews = models.SmallIntegerField(default=0, null=True, blank=True)
+    rating = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, default=0)
+    num_reviews = models.SmallIntegerField(default=0, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
