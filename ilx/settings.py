@@ -86,6 +86,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ilx.wsgi.application'
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 AUTH_USER_MODEL = 'account.User'
 
