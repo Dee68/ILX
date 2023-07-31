@@ -47,6 +47,10 @@ INSTALLED_APPS = [
     'cloudinary',
     'account.apps.AccountConfig',
     'rest_framework',
+<<<<<<< HEAD
+    'rest_framework_simplejwt',
+=======
+>>>>>>> origin
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
@@ -87,7 +91,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ilx.wsgi.application'
 
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 
 AUTH_USER_MODEL = 'account.User'
 
@@ -218,8 +222,13 @@ LOGGING = {
 # }
 
 SIMPLE_JWT = {
+<<<<<<< HEAD
+    'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=5),
+=======
     'AUTH_HEADER_TYPES': ('Bearer','JWT',),
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=1),
+>>>>>>> origin
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
