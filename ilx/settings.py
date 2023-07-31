@@ -47,10 +47,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'account.apps.AccountConfig',
     'rest_framework',
-<<<<<<< HEAD
     'rest_framework_simplejwt',
-=======
->>>>>>> origin
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
