@@ -52,7 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=60,
         db_index=True
         )
-    is_verified = models.BooleanField(default=False)
+    # is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -78,7 +78,7 @@ class Profile(models.Model):
     town_or_city = models.CharField(blank=True, max_length=30)
     county = models.CharField(blank=True, default=00, max_length=30, null=True)
     postcode = models.CharField(blank=True, max_length=30)
-    avatar = models.ImageField(blank=True, upload_to='profile_pics/')
+    avatar = models.ImageField(blank=True, upload_to='profile_pics/', null=True)
 
     def image_tag(self):
         if self.avatar:
@@ -91,3 +91,6 @@ class Profile(models.Model):
     def create_profile(sender, instance, created, **kwargs):
         if created:
             Profile.objects.create(user=instance)
+
+    def __str__(self):
+        return f'Profile of {self.user.username}'

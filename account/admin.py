@@ -3,7 +3,7 @@ from .models import User, Profile
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username', 'email', 'is_verified']
+    list_display = ['username', 'email', 'is_active']
     exclude = ['password1']
 
 
