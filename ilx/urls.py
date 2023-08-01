@@ -21,6 +21,7 @@ from django.conf import settings
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from account.api.views import ProfileListView, ProfileDetailView
 
 
 schema_view = get_schema_view(
@@ -48,7 +49,17 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     path('auth/', include('djoser.urls.authtoken')),
     #path('auth/', include('djoser.social.urls')),
-    path('api/', include('product.urls'))
+    path('api/', include('product.urls')),
+<<<<<<< HEAD
+    path('api/profiles', ProfileListView.as_view(), name='profiles'),
+=======
+    path('api/profiles/', ProfileListView.as_view(), name='profiles'),
+>>>>>>> a28d430 (Changes made to profile model.)
+    path(
+        'api/profiles/<int:user>/',
+        ProfileDetailView.as_view(),
+        name='profile'
+        )
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
