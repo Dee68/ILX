@@ -88,7 +88,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ilx.wsgi.application'
 
 CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 
 AUTH_USER_MODEL = 'account.User'
 
@@ -139,16 +139,16 @@ else:
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# if DEBUG:
+#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#     DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+# else:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -221,8 +221,6 @@ LOGGING = {
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=5),
-    'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=1),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
