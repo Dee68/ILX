@@ -70,13 +70,52 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     """User profile to extend the account profile
     """
+    COUNTY_CHOICES = [
+        ('CORK', 'CORK'),
+        ('GALWAY', 'GALWAY'),
+        ('DONEGAL', 'DONEGAL'),
+        ('MAYO', 'MAYO'),
+        ('KERRY', 'KERRY'),
+        ('TIPPERARY', 'TIPPERARY'),
+        ('CLARE', 'CLARE'),
+        ('TYRONE', 'TYRONE'),
+        ('ANTRIM', 'ANTRIM'),
+        ('LIMERICK', 'LIMERICK'),
+        ('ROSCOMMON', 'ROSCOMMON'),
+        ('DOWN', 'DOWN'),
+        ('WEXFORD', 'WEXFORD'),
+        ('MEATH', 'MEATH'),
+        ('LONDONDERRY', 'LONDONDERRY'),
+        ('KILKENNY', 'KILKENNY'),
+        ('WICKLOW', 'WICKLOW'),
+        ('OFFALY', 'OFFALY'),
+        ('CAVAN', 'CAVAN'),
+        ('WATERFORD', 'WATERFORD'),
+        ('WESTMEATH', 'WESTMEATH'),
+        ('SLIGO', 'SLIGO'),
+        ('LAOIS', 'LAOIS'),
+        ('KILDARE', 'KILDARE'),
+        ('FERMANAGH', 'FERMANAGH'),
+        ('LEITRIM', 'LEITRIM'),
+        ('ARMAGH', 'ARMAGH'),
+        ('MONOGHAN', 'MONOGHAN'),
+        ('LONGFORD', 'LONGFORD'),
+        ('DUBLIN', 'DUBLIN'),
+        ('CARLOW', 'CARLOW'),
+        ('LOUTH', 'LOUTH'),
+    ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
     first_name = models.CharField(max_length=20, default='firstname')
     last_name = models.CharField(max_length=20, default='lastname')
     street_address1 = models.CharField(blank=True, max_length=100, null=True)
     town_or_city = models.CharField(blank=True, max_length=30)
-    county = models.CharField(blank=True, default=00, max_length=30, null=True)
+    county = models.CharField(
+        blank=True,
+        max_length=30,
+        null=True,
+        choices=COUNTY_CHOICES
+        )
     postcode = models.CharField(blank=True, max_length=30)
     avatar = models.ImageField(blank=True, upload_to='profile_pics/', null=True)
 
