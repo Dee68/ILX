@@ -21,7 +21,11 @@ from django.conf import settings
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from account.api.views import ProfileListView, ProfileDetailView
+from account.api.views import (
+    ProfileDetailView,
+    ProfileListView,
+    ProfileUpdateView
+    )
 
 
 schema_view = get_schema_view(
@@ -56,6 +60,11 @@ urlpatterns = [
         'api/profiles/<int:user>/',
         ProfileDetailView.as_view(),
         name='profile'
+        ),
+    path(
+        'api/profiles/<int:user>/update/',
+        ProfileUpdateView.as_view(),
+        name='profile-update'
         )
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
