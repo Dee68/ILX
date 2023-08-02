@@ -50,11 +50,8 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
     #path('auth/', include('djoser.social.urls')),
     path('api/', include('product.urls')),
-<<<<<<< HEAD
     path('api/profiles', ProfileListView.as_view(), name='profiles'),
-=======
     path('api/profiles/', ProfileListView.as_view(), name='profiles'),
->>>>>>> a28d430 (Changes made to profile model.)
     path(
         'api/profiles/<int:user>/',
         ProfileDetailView.as_view(),
