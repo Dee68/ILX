@@ -220,7 +220,15 @@ LOGGING = {
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
+<<<<<<< HEAD
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=5),
+<<<<<<< HEAD
+=======
+    'AUTH_HEADER_TYPES': ('Bearer', 'JWT',),
+=======
+>>>>>>> 6336d8a (Add profile endpoint to project.)
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=1),
+>>>>>>> 9384d32 (Add profile endpoint to project.)
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',

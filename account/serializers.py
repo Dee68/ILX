@@ -2,7 +2,7 @@ from djoser.serializers import UserCreateSerializer
 # from rest_framework.validators import UniqueValidator
 # from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import get_user_model
-from account.models import Profile
+#from account.models import Profile
 # from django.contrib.auth import authenticate
 # from django.contrib.auth.tokens import PasswordResetTokenGenerator
 # from django.utils.encoding import (
