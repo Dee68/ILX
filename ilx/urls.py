@@ -21,15 +21,11 @@ from django.conf import settings
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-<<<<<<< HEAD
 from account.api.views import (
     ProfileDetailView,
     ProfileListView,
     ProfileUpdateView
     )
-=======
-from account.api.views import ProfileDetailView, ProfileListView
->>>>>>> 9384d32 (Add profile endpoint to project.)
 
 
 schema_view = get_schema_view(
@@ -58,9 +54,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
     #path('auth/', include('djoser.social.urls')),
     path('api/', include('product.urls')),
-<<<<<<< HEAD
     path('api/profiles', ProfileListView.as_view(), name='profiles'),
-    path('api/profiles/', ProfileListView.as_view(), name='profiles'),
     path(
         'api/profiles/<int:user>/',
         ProfileDetailView.as_view(),
@@ -71,10 +65,7 @@ urlpatterns = [
         ProfileUpdateView.as_view(),
         name='profile-update'
         )
-=======
-    path('api/profiles/', ProfileListView.as_view(), name='profiles'),
-    path('api/profiles/<int:user>/', ProfileDetailView.as_view(), name='profile')
->>>>>>> 9384d32 (Add profile endpoint to project.)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 #urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
