@@ -48,7 +48,7 @@ class ProductImageInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'seller', 'location', 'category', 'image_tag']
+    list_display = ['name', 'seller', 'created_at', 'category', 'image_tag']
     list_filter = ['category']
     readonly_fields = ('image_tag',)
     prepopulated_fields = {'slug': ('name',)}
