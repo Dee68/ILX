@@ -61,7 +61,6 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.SmallIntegerField(default=1)
-    location = models.CharField(max_length=100)
     status = models.CharField(max_length=5, choices=STATUS, default='FALSE')
     image_url = models.URLField(max_length=1024, null=True, blank=True)
     rating = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, default=0)
