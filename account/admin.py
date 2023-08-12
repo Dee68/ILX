@@ -11,7 +11,7 @@ admin.site.register(User, UserAdmin)
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'county', 'phone_number', 'image_tag', 'postcode']
+    list_display = ['user', 'city', 'county', 'phone_number', 'image_tag']
     readonly_fields = ['image_tag']
 
 

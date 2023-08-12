@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from product.models import Category, Product
+from product.models import Category, Product, ProductImage
 
 
 class RecursiveField(serializers.Serializer):
@@ -16,6 +16,30 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', 'image', 'children',)
 
 
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = '__all__'
+
+
 class ProductSerializer(serializers.ModelSerializer):
-    model = Product
-    fields = '__all__'
+    queryset = ProductImage.objects.all()
+    product_images = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=queryset
+    )
+ 
+    class Meta:
+        model = Product
+        fields = (
+            'id',
+            'name',
+            'status',
+            'price',
+            'category',
+            'seller',
+            'created_at',
+            'image',
+            'image_url',
+            'product_images',
+            )

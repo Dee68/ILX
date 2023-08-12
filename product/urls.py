@@ -2,7 +2,8 @@ from django.urls import path
 from product.views import (
     CategoryApiView,
     CategorySingleApiView,
-    ProductApiView
+    ProductApiView,
+    ProductImageApiView
     )
 
 
@@ -17,5 +18,19 @@ urlpatterns = [
         CategorySingleApiView.as_view(),
         name='category'
         ),
-    path('products/', ProductApiView.as_view(), name='products')
+    path(
+        'products/',
+        ProductApiView.as_view({'get': 'list'}),
+        name='products'
+        ),
+    path(
+        'products/<pk>/',
+        ProductApiView.as_view({'get': 'retrieve'}),
+        name='product-detail'
+        ),
+    path(
+        'product-images/',
+        ProductImageApiView.as_view(),
+        name='product-images'
+        )
 ]
