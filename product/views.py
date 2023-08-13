@@ -1,13 +1,12 @@
-from rest_framework import views, viewsets
+from rest_framework import views, viewsets, status
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from .serializers import (
     CategorySerializer,
-    ProductSerializer,
-    ImageSerializer
+    ProductSerializer
     )
-from product.models import Category, Product, ProductImage
+from product.models import Category, Product
 
 
 class CategoryApiView(views.APIView):
@@ -26,20 +25,19 @@ class CategorySingleApiView(views.APIView):
 
 
 class ProductApiView(viewsets.ModelViewSet):
+    serializer_class = ProductSerializer
+
     def list(self, request):
-        queryset = Product.objects.all().order_by('-created_at')
+        queryset = Product.objects.all()
         serializer = ProductSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        queryset = Product.objects.all().order_by('-created_at')
         product = get_object_or_404(Product, pk=pk)
         serializer = ProductSerializer(product)
         return Response(serializer.data)
 
-
-class ProductImageApiView(views.APIView):
-    def get(self, requset):
-        queryset = ProductImage.objects.all()
-        serializer = ImageSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

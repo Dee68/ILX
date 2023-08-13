@@ -3,7 +3,6 @@ from product.views import (
     CategoryApiView,
     CategorySingleApiView,
     ProductApiView,
-    ProductImageApiView
     )
 
 
@@ -29,8 +28,8 @@ urlpatterns = [
         name='product-detail'
         ),
     path(
-        'product-images/',
-        ProductImageApiView.as_view(),
-        name='product-images'
+        'products-create/',
+        ProductApiView.as_view({'post': 'create'}),
+        name='product-create'
         )
 ]
