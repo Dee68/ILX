@@ -50,45 +50,31 @@ class Category(MPTTModel):
 
 class Product(models.Model):
     STATUS = (
-        ('Vip', 'Vip'),
-        ('Basic', 'Basic'),
+        ('True', True),
+        ('False', False),
     )
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True, max_length=200)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.SmallIntegerField(default=1)
-    photo1 = models.ImageField(upload_to='images/products/', blank=True, null=False)
-    photo2 = models.ImageField(upload_to='images/products/', blank=True, null=False)
-    photo3 = models.ImageField(upload_to='images/products/', blank=True, null=False)
-    photo4 = models.ImageField(upload_to='images/products/', blank=True, null=False)
-    photo5 = models.ImageField(upload_to='images/products/', blank=True, null=False)
-    photo6 = models.ImageField(upload_to='images/products/', blank=True, null=False)
-    status = models.CharField(max_length=5, choices=STATUS, default='Vip')
+    photo1 = models.ImageField(upload_to='images/products/', blank=True, null=True)
+    photo2 = models.ImageField(upload_to='images/products/', blank=True, null=True)
+    photo3 = models.ImageField(upload_to='images/products/', blank=True, null=True)
+    photo4 = models.ImageField(upload_to='images/products/', blank=True, null=True)
+    photo5 = models.ImageField(upload_to='images/products/', blank=True, null=True)
+    status = models.CharField(max_length=5, choices=STATUS, default=True)
     rating = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, default=0)
     num_reviews = models.SmallIntegerField(default=0, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ['-created_at']
-
-    # def image_tag(self):
-    #     if self.image:
-    #         return mark_safe(
-    #                 '<img src="%s" height="50" width="50">' % self.image.url)
-    #     return "No image found"
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
-
-
-# class ProductImage(models.Model):
-#     title = models.CharField(max_length=100)
-#     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-#     image = models.ImageField(upload_to='images/products/')
-
-#     def __str__(self):
-#         return self.title
