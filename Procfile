@@ -1,1 +1,1 @@
-web:ilx.wsgi
+web: gunicorn ilx.wsgi:application
