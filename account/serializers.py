@@ -1,19 +1,6 @@
 from djoser.serializers import UserCreateSerializer
-# from rest_framework.validators import UniqueValidator
-# from rest_framework.exceptions import AuthenticationFailed
+
 from django.contrib.auth import get_user_model
-#from account.models import Profile
-# from django.contrib.auth import authenticate
-# from django.contrib.auth.tokens import PasswordResetTokenGenerator
-# from django.utils.encoding import (
-#     smart_bytes,
-#     smart_str,
-#     force_str,
-#     DjangoUnicodeDecodeError
-#     )
-# from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-# from rest_framework_simplejwt.exceptions import TokenError
-# from rest_framework_simplejwt.tokens import RefreshToken
 
 
 User = get_user_model()
