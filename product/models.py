@@ -1,7 +1,7 @@
 from django.db import models
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
-from account.models import User
+from django.conf import settings
 from django.utils.safestring import mark_safe
 
 
@@ -50,13 +50,13 @@ class Category(MPTTModel):
 
 class Product(models.Model):
     STATUS = (
-        ('True', True),
-        ('False', False),
+        (True, True),
+        (False, False),
     )
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
     slug = models.SlugField(blank=True, max_length=200)
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.SmallIntegerField(default=1)
