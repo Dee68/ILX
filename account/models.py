@@ -458,7 +458,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=20, default='firstname')
     last_name = models.CharField(max_length=20, default='lastname')
     street_address1 = models.CharField(blank=True, max_length=100, null=True)
-    phone_number = PhoneNumberField(blank=True)
+    phone_number = models.CharField(blank=True, max_length=12)
     city = models.CharField(blank=True, max_length=30, null=True, choices=CITIES_CHOICES)
     county = models.CharField(
         blank=True,

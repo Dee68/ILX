@@ -18,39 +18,23 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
 
-    seller = serializers.PrimaryKeyRelatedField(read_only=True)
+    seller_username = serializers.SerializerMethodField()
+    seller_county = serializers.SerializerMethodField()
+    seller_phone_number = serializers.SerializerMethodField()
+    seller_city = serializers.SerializerMethodField()
+
+    def get_seller_username(self, obj):
+        return obj.seller.username
+
+    def get_seller_county(self, obj):
+        return obj.seller.profile.county
+
+    def get_seller_phone_number(self, obj):
+        return obj.seller.profile.phone_number
+
+    def get_seller_city(self, obj):
+        return obj.seller.profile.city
 
     class Meta:
         model = Product
-        fields = (
-            'name',
-            'status',
-            'price',
-            'category',
-            'description',
-            'seller',
-            'quantity',
-            'photo1',
-            'photo2',
-            'photo3',
-            'photo4',
-            'photo5',
-            )
-
-    def create(self, validated_data):
-        user = self.context['request'].user
-        product = Product.objects.create(
-            name=validated_data['name'],
-            status=validated_data['status'],
-            price=validated_data['price'],
-            category=validated_data['category'],
-            quantity=validated_data['quantity'],
-            seller=user,
-            photo1=validated_data['photo1'],
-            photo2=validated_data['photo2'],
-            photo3=validated_data['photo3'],
-            photo4=validated_data['photo4'],
-            photo5=validated_data['photo5'],
-        )
-        
-        return product
+        fields = '__all__'
