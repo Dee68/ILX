@@ -3,7 +3,8 @@ from product.views import (
     CategoryApiView,
     CategorySingleApiView,
     ProductApiView,
-    ProductCreateView
+    ProductCreateView,
+    ProductDetailView
     )
 
 
@@ -28,4 +29,9 @@ urlpatterns = [
         ProductCreateView.as_view(),
         name='product-create'
         ),
+    path(
+        'products/<int:pk>/',
+        ProductDetailView.as_view(),
+        name='product-detail'
+    )
 ]
