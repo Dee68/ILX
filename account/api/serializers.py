@@ -3,6 +3,7 @@ from phonenumber_field.serializerfields import PhoneNumberField
 from account.models import Profile
 from rest_framework import serializers
 from product.models import Product
+from product.serializers import ProductSerializer
 
 
 # class PhoneNumberSerializer(serializers.Serializer):
