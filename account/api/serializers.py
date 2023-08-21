@@ -2,6 +2,7 @@ from django.conf import settings
 from phonenumber_field.serializerfields import PhoneNumberField
 from account.models import Profile
 from rest_framework import serializers
+from product.models import Product
 
 
 # class PhoneNumberSerializer(serializers.Serializer):
