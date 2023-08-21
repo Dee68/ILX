@@ -21,7 +21,7 @@ class PhoneForm(forms.ModelForm):
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'city', 'county', 'phone_number', 'image_tag']
-    form = PhoneForm
+    #form = PhoneForm
     readonly_fields = ['image_tag']
 
 
