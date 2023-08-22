@@ -54,7 +54,7 @@ class Product(models.Model):
         (False, False),
     )
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=255)
+    description = models.TextField()
     slug = models.SlugField(blank=True, max_length=200)
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
