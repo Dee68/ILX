@@ -48,3 +48,9 @@ class ProductDeleteView(generics.DestroyAPIView):
     model = Product
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+
+class ProductUpdateView(generics.UpdateAPIView):
+    model = Product
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer

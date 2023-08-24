@@ -5,7 +5,8 @@ from product.views import (
     ProductApiView,
     ProductCreateView,
     ProductDetailView,
-    ProductDeleteView
+    ProductDeleteView,
+    ProductUpdateView
     )
 
 
@@ -39,5 +40,10 @@ urlpatterns = [
         'products/<int:pk>/delete/',
         ProductDeleteView.as_view(),
         name='product-delete'
+    ),
+    path(
+        'products/<int:pk>/update/',
+        ProductUpdateView.as_view(),
+        name='product-update'
     )
 ]
