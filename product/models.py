@@ -1,6 +1,7 @@
 from django.db import models
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
+from django.template.defaultfilters import slugify
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
