@@ -50,4 +50,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductAdmin)
 
-admin.site.register(WishList)
+
+class WishListAdmin(admin.ModelAdmin):
+    list_display = ['id', 'product', 'user']
+
+
+admin.site.register(WishList, WishListAdmin)
