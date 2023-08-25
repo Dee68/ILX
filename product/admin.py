@@ -1,6 +1,6 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
-from .models import Category, Product
+from .models import Category, Product, WishList
 
 
 class CategoryAdmin(DraggableMPTTAdmin):
@@ -42,17 +42,12 @@ class CategoryAdmin(DraggableMPTTAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 
-# class ProductImageInline(admin.TabularInline):
-#     model = ProductImage
-#     extra = 10
-
-
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'seller', 'created_at', 'category', 'price']
     list_filter = ['category']
-    # readonly_fields = ('image_tag',)
     prepopulated_fields = {'slug': ('name',)}
-    # inlines = [ProductImageInline]
-
+   
 
 admin.site.register(Product, ProductAdmin)
+
+admin.site.register(WishList)
