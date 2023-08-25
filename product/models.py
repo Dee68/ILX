@@ -92,4 +92,4 @@ class WishList(models.Model):
         verbose_name_plural = "Wish List"
 
     def __str__(self):
-        return f"{self.user.username}'s wish list of product:${self.product.name}"
+        return f"{self.user.username} - product:${self.product.name}"
