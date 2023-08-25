@@ -42,15 +42,24 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class WishListSerializer(serializers.ModelSerializer):
+    user_info = serializers.SerializerMethodField()
+    product_info = serializers.SerializerMethodField()
+
+    def get_user_info(self, obj):
+        return obj.user
+
+    def get_product_info(self, obj):
+        return obj.product
+
     class Meta:
         model = WishList
-        fields = ['id', 'product', 'user']
+        fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super(WishListSerializer, self).__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     super(WishListSerializer, self).__init__(*args, **kwargs)
 
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['user'] = UserSerializer(instance.user).data
-        response['product'] = ProductSerializer(instance.product).data
-        return response
+    # def to_representation(self, instance):
+    #     response = super().to_representation(instance)
+    #     response['user'] = UserSerializer(instance.user).data
+    #     response['product'] = ProductSerializer(instance.product).data
+    #     return response
