@@ -59,5 +59,4 @@ class ProductUpdateView(generics.UpdateAPIView):
 
 class WishListApiView(generics.CreateAPIView):
     model = WishList
-    queryset = WishList.objects.all()
     serializer_class = WishListSerializer
