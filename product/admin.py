@@ -1,6 +1,6 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
-from .models import Category, Product, WishList
+from .models import Category, Product
 
 
 class CategoryAdmin(DraggableMPTTAdmin):
@@ -49,10 +49,3 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product, ProductAdmin)
-
-
-class WishListAdmin(admin.ModelAdmin):
-    list_display = ['product', 'user']
-
-
-admin.site.register(WishList, WishListAdmin)

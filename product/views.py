@@ -2,16 +2,14 @@ from rest_framework import (
     views,
     status,
     generics)
-from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from .serializers import (
     CategorySerializer,
     ProductSerializer,
-    WishListSerializer
     )
-from product.models import Category, Product, WishList
+from product.models import Category, Product
 
 
 class CategoryApiView(views.APIView):
@@ -56,9 +54,3 @@ class ProductUpdateView(generics.UpdateAPIView):
     model = Product
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
-
-class AddToWishListView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
-    model = WishList
-    serializer_class = WishListSerializer

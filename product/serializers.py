@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from product.models import Category, Product, WishList
+from product.models import Category, Product
 
 
 class RecursiveField(serializers.Serializer):
@@ -37,12 +37,4 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
-
-
-class WishListSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)
-
-    class Meta:
-        model = WishList
         fields = '__all__'
