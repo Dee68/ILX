@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from product.models import Category, Product
+from product.models import Category, Product, WishList
+from djoser.serializers import UserSerializer
 
 
 class RecursiveField(serializers.Serializer):
@@ -38,3 +39,18 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+class WishListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WishList
+        fields = ['id', 'product', 'user']
+
+    def __init__(self, *args, **kwargs):
+        super(WishListSerializer, self).__init__(*args, **kwargs)
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['user'] = UserSerializer(instance.user).data
+        response['product'] = ProductSerializer(instance.product).data
+        return response

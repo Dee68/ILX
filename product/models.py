@@ -88,5 +88,8 @@ class WishList(models.Model):
         )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name_plural = "Wish List"
+
     def __str__(self):
-        return f"{self.user}'s wish list"
+        return f"{self.user.username}'s wish list of product:${self.product.name}"
