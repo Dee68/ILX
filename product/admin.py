@@ -46,13 +46,13 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'seller', 'created_at', 'category', 'price']
     list_filter = ['category']
     prepopulated_fields = {'slug': ('name',)}
-   
+
 
 admin.site.register(Product, ProductAdmin)
 
 
 class WishListAdmin(admin.ModelAdmin):
-    list_display = ['id', 'product', 'user']
+    list_display = ['product', 'user']
 
 
 admin.site.register(WishList, WishListAdmin)

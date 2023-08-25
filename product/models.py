@@ -67,6 +67,11 @@ class Product(models.Model):
     photo4 = models.ImageField(upload_to='images/products/', blank=True, null=True)
     photo5 = models.ImageField(upload_to='images/products/', blank=True, null=True)
     status = models.CharField(max_length=5, choices=STATUS, default=True)
+    # users_wishlist = models.ManyToManyField(
+    #     settings.AUTH_USER_MODEL,
+    #     related_name='users_wishlist', 
+    #     blank=True
+    #     )
     rating = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, default=0)
     num_reviews = models.SmallIntegerField(default=0, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -84,9 +89,14 @@ class Product(models.Model):
 class WishList(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True
         )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True)
 
     class Meta:
         verbose_name_plural = "Wish List"
