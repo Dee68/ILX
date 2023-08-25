@@ -7,9 +7,10 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from .serializers import (
     CategorySerializer,
-    ProductSerializer
+    ProductSerializer,
+    WishListSerializer
     )
-from product.models import Category, Product
+from product.models import Category, Product, WishList
 
 
 class CategoryApiView(views.APIView):
@@ -54,3 +55,9 @@ class ProductUpdateView(generics.UpdateAPIView):
     model = Product
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+
+class WishListApiView(generics.CreateAPIView):
+    model = WishList
+    queryset = WishList.objects.all()
+    serializer_class = WishListSerializer

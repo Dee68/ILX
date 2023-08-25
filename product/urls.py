@@ -6,7 +6,8 @@ from product.views import (
     ProductCreateView,
     ProductDetailView,
     ProductDeleteView,
-    ProductUpdateView
+    ProductUpdateView,
+    WishListApiView
     )
 
 
@@ -45,5 +46,10 @@ urlpatterns = [
         'products/<int:pk>/update/',
         ProductUpdateView.as_view(),
         name='product-update'
-    )
+    ),
+    path(
+        'wishlist/',
+        WishListApiView.as_view(),
+        name='wish-list'
+        )
 ]
