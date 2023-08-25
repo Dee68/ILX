@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'product',
+    'wishlist',
     'mptt',
     'djoser',
     'phonenumber_field'
