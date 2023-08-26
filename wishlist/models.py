@@ -13,7 +13,7 @@ class WishList(models.Model):
         Product,
         on_delete=models.CASCADE,
         blank=True,
-        null=True)
+        )
 
     class Meta:
         verbose_name_plural = 'Wish List'
