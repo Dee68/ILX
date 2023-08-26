@@ -7,14 +7,16 @@ from django.conf import settings
 class WishList(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='user',
-        blank=True)
+        blank=True,
+        null=True)
     product = models.ForeignKey(
         Product,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='product',
         blank=True,
+        null=True
         )
 
     class Meta:
