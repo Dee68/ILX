@@ -27,8 +27,8 @@ from account.api.views import (
     ProfileUpdateView,
     )
 from wishlist.views import (
-    WishListApiView,
-    WishListCreateView)
+    WishListApiView,)
+    #WishListCreateView)
 
 
 schema_view = get_schema_view(
