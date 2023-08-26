@@ -8,10 +8,12 @@ class WishList(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name='user',
         blank=True)
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
+        related_name='product',
         blank=True,
         )
 
