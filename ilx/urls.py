@@ -77,7 +77,7 @@ urlpatterns = [
         WishListApiView.as_view()
         ),
     path(
-        'api/wishlist/<int:pk>/create/',
+        'api/wishlist/create/',
         WishListCreateView.as_view()
         )
     
