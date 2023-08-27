@@ -1,4 +1,4 @@
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from phonenumber_field.serializerfields import PhoneNumberField
 from account.models import Profile
 from rest_framework import serializers
@@ -6,8 +6,16 @@ from product.models import Product
 from product.serializers import ProductSerializer
 
 
+User = get_user_model()
+
 # class PhoneNumberSerializer(serializers.Serializer):
 #     number = PhoneNumberField(region="IE")
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
 
 
 class ProfileSerializer(serializers.ModelSerializer):

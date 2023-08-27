@@ -1,19 +1,20 @@
 from rest_framework import serializers
 from .models import WishList
 from product.serializers import ProductSerializer
+from account.api.serializers import UserSerializer
 
 
 class WishListSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    product = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    product = serializers.PrimaryKeyRelatedField(read_only=True)
     user_info = serializers.SerializerMethodField()
     product_info = serializers.SerializerMethodField()
 
     def get_user_info(self, obj):
-        return obj.user
+        return UserSerializer(obj.user).data
 
     def get_product_info(self, obj):
-        return obj.product
+        return ProductSerializer(obj.product).data
 
     class Meta:
         model = WishList
