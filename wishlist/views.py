@@ -12,7 +12,7 @@ class WishListApiView(generics.ListAPIView):
     serializer_class = WishListSerializer
 
 
-# class WishListCreateView(generics.CreateAPIView):
-#     #permission_classes = (IsAuthenticated,)
-#     model = WishList
-#     serializer_class = WishListSerializer
+class WishListCreateView(generics.CreateAPIView):
+    #permission_classes = (IsAuthenticated,)
+    model = WishList
+    serializer_class = WishListSerializer

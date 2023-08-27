@@ -27,8 +27,8 @@ from account.api.views import (
     ProfileUpdateView,
     )
 from wishlist.views import (
-    WishListApiView,)
-    #WishListCreateView)
+    WishListApiView,
+    WishListCreateView)
 
 
 schema_view = get_schema_view(
@@ -76,10 +76,10 @@ urlpatterns = [
         'api/wishlist/',
         WishListApiView.as_view()
         ),
-    # path(
-    #     'api/wishlist/<int:pk>/create/',
-    #     WishListCreateView.as_view()
-    #     )
+    path(
+        'api/wishlist/<int:pk>/create/',
+        WishListCreateView.as_view()
+        )
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
