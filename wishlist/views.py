@@ -1,13 +1,13 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from wishlist import models
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
 from .serializers import WishListSerializer
 from .models import WishList
 
 
 class WishListApiView(generics.ListCreateAPIView):
-    #permission_classes = (IsAuthenticated,)
     model = WishList
     queryset = WishList.objects.all()
     serializer_class = WishListSerializer
@@ -22,3 +22,15 @@ class UserWishListItems(generics.ListAPIView):
         user_id = self.kwargs['pk']
         qs = qs.filter(user__id=user_id)
         return qs
+
+
+@api_view(('POST',))
+@csrf_exempt
+def remove_from_list(request):
+    if request.method == 'POST':
+        wishlist_id = request.POST.get('wishlist_id')
+        res = models.WishList.objects.filter(id=wishlist_id).delete()
+        msg = {'bool': False}
+        if res:
+            msg = {'bool': True}
+    return response.Response(msg, status=status.HTTP_202_ACCEPTED)
