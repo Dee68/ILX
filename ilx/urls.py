@@ -28,7 +28,8 @@ from account.api.views import (
     )
 from wishlist.views import (
     WishListApiView,
-    UserWishListItems
+    UserWishListItems,
+    remove_from_list
     )
 
 
@@ -80,7 +81,8 @@ urlpatterns = [
     path(
         'api/user/<int:pk>/wishlist-items/',
         UserWishListItems.as_view()
-        )  
+        ),
+    path('api/remove-wishlist/', remove_from_list, name='remove-wishlist')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
