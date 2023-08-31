@@ -3,4 +3,8 @@ from .models import WishList
 # Register your models here.
 
 
-admin.site.register(WishList)
+class WishListAdmin(admin.ModelAdmin):
+    list_display = ['id', 'product', 'user', 'created_at']
+
+
+admin.site.register(WishList, WishListAdmin)
