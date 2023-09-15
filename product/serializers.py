@@ -22,6 +22,7 @@ class ProductSerializer(serializers.ModelSerializer):
     seller_county = serializers.SerializerMethodField()
     seller_phone_number = serializers.SerializerMethodField()
     seller_city = serializers.SerializerMethodField()
+    product_category = serializers.SerializerMethodField()
 
     def get_seller_username(self, obj):
         return obj.seller.username
@@ -34,6 +35,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_seller_city(self, obj):
         return obj.seller.profile.city
+
+    def get_product_category(self, obj):
+        return obj.category.title
 
     class Meta:
         model = Product
