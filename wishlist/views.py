@@ -14,6 +14,7 @@ class WishListApiView(generics.ListCreateAPIView):
 
 
 class UserWishListItems(generics.ListAPIView):
+    model = WishList
     queryset = models.WishList.objects.all()
     serializer_class = WishListSerializer
 
