@@ -33,7 +33,7 @@ DEBUG = False
 if DEBUG:
     ALLOWED_HOSTS = [ '8000-dee68-ilx-xno2lae9hig.ws-eu104.gitpod.io','8000-viacheslav1510-ilx-5uyd5tglhb0.ws-eu103.gitpod.io']
 else:
-    ALLOWED_HOSTS = ['https://ilx-3022db9b1ed6.herokuapp.com/', '*']
+    ALLOWED_HOSTS = [ '*']
 
 # Application definition
 
