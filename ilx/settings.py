@@ -91,8 +91,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ilx.wsgi.application'
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 AUTH_USER_MODEL = 'account.User'
 
@@ -155,8 +154,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
-DOMAIN = ('https://ilx-react.onrender.com')
-SITE_NAME = 'https://ilx-react.onrender.com'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
