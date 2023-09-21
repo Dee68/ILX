@@ -14,6 +14,7 @@ class WishListApiView(generics.ListCreateAPIView):
 
 
 class UserWishListItems(generics.ListAPIView):
+    model = WishList
     queryset = models.WishList.objects.all()
     serializer_class = WishListSerializer
 
@@ -33,4 +34,4 @@ def remove_from_list(request):
         msg = {'bool': False}
         if res:
             msg = {'bool': True}
-    return response.Response(msg, status=status.HTTP_202_ACCEPTED)
+    return Response(msg, status=status.HTTP_202_ACCEPTED)
