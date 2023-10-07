@@ -91,8 +91,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ilx.wsgi.application'
 
-CORS_ORIGIN_ALLOW_ALL = True
-#CORS_ORIGIN_WHITELIST = ('https://ilx-react.onrender.com',)
+#CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = ('https://ilx-react.onrender.com',)
 
 AUTH_USER_MODEL = 'account.User'
 
